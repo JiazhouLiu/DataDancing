@@ -609,6 +609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 49123165228625285}
   - component: {fileID: 49123165228625284}
+  - component: {fileID: 6823839032456942795}
   - component: {fileID: 1881937335}
   - component: {fileID: 1881937333}
   - component: {fileID: 1881937334}
@@ -647,6 +648,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71196be28d9bddb4eadf638ae4372cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EM: {fileID: 0}
+  StartBoard: {fileID: 4971629877618586852}
+  StartTitle: {fileID: 6164191019743723290}
+  StartButton: {fileID: 8171656640665680492}
+  AnswerButton: {fileID: 49123166537593330}
+  QuestionBoard: {fileID: 49123166176191767}
+  ConfirmBoard: {fileID: 49123165772453956}
+  QuestionFile: {fileID: 0}
+  TitleText: {fileID: 2613222419811225770}
+  BodyText: {fileID: 49123166072235178}
+  TrainingScene: 0
+  questions: []
+  initialised: 0
+--- !u!114 &6823839032456942795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49123165228625283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e617163e52f45894d8ebc8bafb7092df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   EM: {fileID: 0}

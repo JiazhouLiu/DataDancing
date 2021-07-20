@@ -54,7 +54,8 @@ public class DataPlayback : MonoBehaviour
     private OneEuroFilter<Quaternion> cameraTransformRotationFilter;
 
     private int prevQuestionID = 0;
-    private int currentQuestionID = 0;
+    [HideInInspector]
+    public int currentQuestionID = 0;
 
     public void StartLiveReplay()
     {

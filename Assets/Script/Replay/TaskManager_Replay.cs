@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using VRTK;
 
-public class TaskManager : MonoBehaviour
+public class TaskManager_Replay : MonoBehaviour
 {
-    public ExperimentManager EM;
+    public DataPlayback DP;
     public Transform StartBoard;
     public Text StartTitle;
     public Transform StartButton;
@@ -40,7 +40,7 @@ public class TaskManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        questionID = EM.QuestionID;
+        questionID = DP.currentQuestionID;
         if (questionID != prevQuestionID) {
             prevQuestionID = questionID;
             UpdateUI(questionID);
@@ -54,7 +54,7 @@ public class TaskManager : MonoBehaviour
             Vector3 forward = Camera.main.transform.forward;
             Camera.main.transform.eulerAngles = oldAngle;
 
-            transform.position = Camera.main.transform.TransformPoint(Vector3.zero) + forward * EM.armLength;
+            transform.position = Camera.main.transform.TransformPoint(Vector3.zero) + forward * 0.5f;
             transform.position -= Vector3.up * 0.1f;
 
             transform.LookAt(Camera.main.transform);
@@ -67,18 +67,9 @@ public class TaskManager : MonoBehaviour
         if (TrainingScene)
             TitleText.text = "Training Question " + questionID + "/4";
         else {
-            if ((EM.TrialNo - 1) % 4 == 0)
-            {
-                TitleText.text = "Training Question " + EM.TrialNo + "/16";
-                if(EM.TrialNo == 1)
-                    StartTitle.text = "Are you ready?";
-                else
-                    StartTitle.text = "Have a rest please!";
-            }
-            else {
-                TitleText.text = "Experiment Question " + EM.TrialNo + "/16";
-                StartTitle.text = "Are you ready?";
-            }
+
+            TitleText.text = "Replay";
+            StartTitle.text = "Are you ready?";
         }
     }
 

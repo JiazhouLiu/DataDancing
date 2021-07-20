@@ -1312,7 +1312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &206330381
 Transform:
   m_ObjectHideFlags: 0
@@ -2758,6 +2758,11 @@ PrefabInstance:
       propertyPath: m_HDR
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5484605680378115179, guid: cec41e33b8f878e4fb378242d3f0184e,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 55
+      objectReference: {fileID: 0}
     - target: {fileID: 5497463615879534379, guid: cec41e33b8f878e4fb378242d3f0184e,
         type: 3}
       propertyPath: m_RootOrder
@@ -3991,6 +3996,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015086829079881205, guid: b691f77a29248da429d72e9e35a2f511,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 6015086829079881206, guid: b691f77a29248da429d72e9e35a2f511,
         type: 3}
@@ -5916,7 +5926,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1612381467
 Transform:
   m_ObjectHideFlags: 0
