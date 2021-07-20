@@ -2514,6 +2514,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 217831533}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &219534306 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5497320498897309939, guid: cec41e33b8f878e4fb378242d3f0184e,
+    type: 3}
+  m_PrefabInstance: {fileID: 690869448}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &220041220
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6597,6 +6603,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &674936701 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6015086829079881206, guid: b691f77a29248da429d72e9e35a2f511,
+    type: 3}
+  m_PrefabInstance: {fileID: 919580975}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &679447690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9045,11 +9057,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ObserverCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 6015086829079881202, guid: b691f77a29248da429d72e9e35a2f511,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6015086829079881206, guid: b691f77a29248da429d72e9e35a2f511,
         type: 3}
@@ -12252,6 +12259,7 @@ GameObject:
   - component: {fileID: 1235773802}
   - component: {fileID: 1235773801}
   - component: {fileID: 1235773803}
+  - component: {fileID: 1235773804}
   m_Layer: 0
   m_Name: Experiment Manager
   m_TagString: Untagged
@@ -12331,6 +12339,31 @@ MonoBehaviour:
   DC: {fileID: 126790190}
   FC: {fileID: 583742128}
   TM: {fileID: 3462410}
+--- !u!114 &1235773804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235773800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6d29f2b3bce5440888b83e5e9416a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FilePath: C:\Users\Joe Liu\Desktop
+  TimeBetweenLogs: 0.02
+  HeadTransform: {fileID: 219534306}
+  LeftControllerTransform: {fileID: 690869450}
+  RightControllerTransform: {fileID: 690869449}
+  WaistTransform: {fileID: 1683434864}
+  LeftFootTransform: {fileID: 868073831}
+  RightFootTransform: {fileID: 220041222}
+  CameraTransform: {fileID: 674936701}
+  DC: {fileID: 126790190}
+  EM: {fileID: 1235773801}
+  IsLogging: 0
+  ParticipantID: 1
 --- !u!1001 &1236493944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17105,6 +17138,11 @@ PrefabInstance:
       propertyPath: WaistDashboard
       value: 
       objectReference: {fileID: 943662730}
+    - target: {fileID: 5323671637259432376, guid: 1a61a501d2f965c418e274c1ba16d3f2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a61a501d2f965c418e274c1ba16d3f2, type: 3}
 --- !u!4 &1683434864 stripped
@@ -18050,10 +18088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441482e8936e35048a1dffac814e3ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Profile: {fileID: 0}
-  m_StaticLightingSkyUniqueID: 0
-  m_SkySettings: {fileID: 0}
-  m_SkySettingsFromProfile: {fileID: 0}
 --- !u!4 &1812959879
 Transform:
   m_ObjectHideFlags: 1

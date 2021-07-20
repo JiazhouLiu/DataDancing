@@ -74,10 +74,11 @@ public class DashboardController_UserStudy : MonoBehaviour
     private List<Transform> selectedVis;
     private List<Transform> explicitlySelectedVis;
 
-    private Dictionary<string, Transform> currentLandmarks;
-    private Dictionary<string, Transform> currentDetailedViews;
+    [HideInInspector]
+    public Dictionary<string, Transform> currentLandmarks;
+    [HideInInspector]
+    public Dictionary<string, Transform> currentDetailedViews;
 
-    private float highlighterIntensity = 10;
     private bool InitialiseTable = false;
     private bool InitialiseShoulder = false;
 
@@ -644,22 +645,6 @@ public class DashboardController_UserStudy : MonoBehaviour
         }
     }
 
-    //private List<Transform> RearrangeDisplayBasedOnAngle(List<Transform> markers)
-    //{
-    //    List<Transform> finalList = new List<Transform>();
-    //    if (markers != null && markers.Count > 0)
-    //    {
-    //        Dictionary<Transform, float> markerAnglesToHuman = new Dictionary<Transform, float>();
-
-    //        foreach (Transform t in markers)
-    //            markerAnglesToHuman.Add(t, Vector3.SignedAngle(HumanWaist.forward, t.position - HumanWaist.position, Vector3.up));
-
-    //        foreach (KeyValuePair<Transform, float> item in markerAnglesToHuman.OrderBy(key => key.Value))
-    //            finalList.Add(item.Key);
-    //    }
-    //    return finalList;
-    //}
-
     private List<Transform> RearrangeDisplayBasedOnLandmarkPosition(List<Transform> markers)
     {
         List<Transform> finalList = new List<Transform>();
@@ -779,7 +764,6 @@ public class DashboardController_UserStudy : MonoBehaviour
             // update vis on detailed views
             UpdateDetailedViews(newVisDict, currentDetailedViews);
 
-            //showOnDashboard = RearrangeDisplayBasedOnAngle(showOnDashboard);
             showOnDashboard = RearrangeDisplayBasedOnLandmarkPosition(showOnDashboard);
             return showOnDashboard;
         }
@@ -817,7 +801,6 @@ public class DashboardController_UserStudy : MonoBehaviour
             UpdateDetailedViews(newVisDict, currentDetailedViews);
 
             showOnDashboard = RearrangeDisplayBasedOnLandmarkPosition(showOnDashboard);
-            //showOnDashboard = RearrangeDisplayBasedOnAngle(showOnDashboard);
             return showOnDashboard;
         }
         else
@@ -952,20 +935,6 @@ public class DashboardController_UserStudy : MonoBehaviour
         return newList;
     }
 
-    //public void GetShoulderPosition()
-    //{
-    //    shoulderPosition = TrackedShoulderPosition.position;
-    //    Shoulder.position = shoulderPosition;
-    //}
-
-    //public void GetArmLength()
-    //{
-    //    armLength = Vector3.Distance(shoulderPosition, MainHand.position);
-    //    Shoulder.GetChild(0).localScale = Vector3.one * armLength * 2;
-
-    //    RePositionLandmarks(ReferenceFrames.Body);
-    //}
-
     public void AddExplicitSelection(Transform t)
     {
         t.GetComponent<Vis>().Selected = true;
@@ -976,11 +945,6 @@ public class DashboardController_UserStudy : MonoBehaviour
         if (explicitlySelectedVis.Count > 3)
         {
             RemoveExplicitSelection(explicitlySelectedVis[0]);
-            //explicitlySelectedVis[0].GetComponent<Vis>().Selected = false;
-            //explicitlySelectedVis[0].Find("LineToDV").GetComponent<LineRenderer>().SetPosition(0, Vector3.zero);
-            //explicitlySelectedVis[0].Find("LineToDV").GetComponent<LineRenderer>().SetPosition(1, Vector3.zero);
-            //explicitlySelectedVis[0].Find("LineToDV").GetComponent<LineRenderer>().SetPosition(2, Vector3.zero);
-            //explicitlySelectedVis.RemoveAt(0);
         }
     }
 
@@ -1083,73 +1047,6 @@ public class DashboardController_UserStudy : MonoBehaviour
         }
         return true;
     }
-
-    private void DetectOverlapAndFix()
-    {
-        foreach (Transform t in currentLandmarks.Values)
-        {
-            List<Transform> tmpList = currentLandmarks.Values.ToList();
-            tmpList.Remove(t);
-            foreach (Transform t2 in tmpList)
-            {
-                if (Vector3.Angle(t.localPosition, t2.position) < 20)
-                {
-                    Vector3 projection = Vector3.Project(t2.position, t.localPosition);
-                    float d = projection.magnitude / 2;
-                    Vector3 newDirection = (t2.position - projection).normalized * d + projection;
-                    t2.localPosition = newDirection.normalized * armLength;
-                }
-            }
-        }
-    }
-
-    //public Vector3 RefineMovingPosition(Transform self, Vector3 previousMovingPosition)
-    //{
-    //    bool allPassed = true;
-    //    Vector3 newPosition = previousMovingPosition;
-
-    //    List<Transform> tmpList = new List<Transform>();
-    //    tmpList = currentLandmarks.Values.ToList();
-    //    tmpList.Remove(self);
-
-    //    foreach (Transform t in tmpList)
-    //    {
-    //        if (Vector3.Angle(t.localPosition, previousMovingPosition) < 30)
-    //        {
-    //            allPassed = false;
-    //            //Vector3 projection = Vector3.Project(previousMovingPosition, t.localPosition);
-    //            //float d = projection.magnitude / 2;
-    //            //Vector3 newDirection = (previousMovingPosition - projection).normalized * d + projection;
-    //            //newPosition = newDirection;
-    //            float newX = 0;
-    //            float newY = 0;
-    //            float newZ = 0;
-    //            if (previousMovingPosition.x > 0)
-    //                newX = Random.Range(0, 0.01f);
-    //            else
-    //                newX = Random.Range(-0.01f, 0);
-
-    //            if (previousMovingPosition.y > 0)
-    //                newY = Random.Range(0, 0.01f);
-    //            else
-    //                newY = Random.Range(-0.01f, 0);
-
-    //            if (previousMovingPosition.z > 0)
-    //                newZ = Random.Range(0, 0.01f);
-    //            else
-    //                newZ = Random.Range(-0.01f, 0);
-    //            newPosition = previousMovingPosition + new Vector3(newX, newY, newZ);
-    //            break;
-    //        }
-    //    }
-
-    //    if (allPassed)
-    //        return newPosition;
-    //    else
-    //        RefineMovingPosition(self, newPosition);
-
-    //    return Vector3.zero;
-    //}
     #endregion
     #endregion
 }
