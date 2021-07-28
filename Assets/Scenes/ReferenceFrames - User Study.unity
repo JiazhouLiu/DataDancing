@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 51b74d7bad397457d883c5940f7664d8, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -229,6 +229,11 @@ PrefabInstance:
       propertyPath: rightCE
       value: 
       objectReference: {fileID: 690869452}
+    - target: {fileID: 6823839032456942795, guid: 745de6c476cb2a7468b2a79c7fd45c45,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8121665038867854867, guid: 745de6c476cb2a7468b2a79c7fd45c45,
         type: 3}
       propertyPath: leftCE
@@ -13120,6 +13125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6015086829079881205, guid: b691f77a29248da429d72e9e35a2f511,
         type: 3}
+      propertyPath: m_AllowMSAA
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015086829079881205, guid: b691f77a29248da429d72e9e35a2f511,
+        type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 55
       objectReference: {fileID: 0}
@@ -20961,7 +20971,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1489775095
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24807,6 +24817,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6353024413759545411, guid: 1a61a501d2f965c418e274c1ba16d3f2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.086
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a61a501d2f965c418e274c1ba16d3f2, type: 3}

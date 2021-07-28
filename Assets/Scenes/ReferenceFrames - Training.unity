@@ -234,6 +234,11 @@ PrefabInstance:
       propertyPath: rightCE
       value: 
       objectReference: {fileID: 690869452}
+    - target: {fileID: 6823839032456942795, guid: 745de6c476cb2a7468b2a79c7fd45c45,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8121665038867854867, guid: 745de6c476cb2a7468b2a79c7fd45c45,
         type: 3}
       propertyPath: leftCE
