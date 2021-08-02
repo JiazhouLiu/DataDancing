@@ -41,13 +41,13 @@ public class FootGestureController_UserStudy : MonoBehaviour
     [HideInInspector] public bool rightHoldingFlag = false;
 
     private Vector3 previousLeftPosition;
-    private bool leftMoving = false;
+    public bool leftMoving = false;
     private Vector3 previousRightPosition;
-    private bool rightMoving = false;
+    public bool rightMoving = false;
 
-    private Transform movingOBJ;
+    [HideInInspector] public Transform[] movingOBJs;
 
-    private Vector3 previousMovingPosition = Vector3.zero;
+    [HideInInspector] public Vector3[] previousMovingPosition;
 
     private float leftTotalDistance = 0;
     private float rightTotalDistance = 0;
@@ -55,6 +55,11 @@ public class FootGestureController_UserStudy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        movingOBJs = new Transform[2];
+        previousMovingPosition = new Vector3[2];
+        previousMovingPosition[0] = Vector3.zero;
+        previousMovingPosition[1] = Vector3.zero;
+
         previousLeftPosition = leftFoot.position;
         previousRightPosition = rightFoot.position;
     }
@@ -81,7 +86,7 @@ public class FootGestureController_UserStudy : MonoBehaviour
             if (leftTotalDistance < 0.1f && rightTotalDistance < 0.1f)
             {
                 logManager.WriteInteractionToLog("Foot Interaction", "Left Foot Press");
-                RunPressToSelect();
+                RunPressToSelect("left");
             }
         }
 
@@ -94,12 +99,12 @@ public class FootGestureController_UserStudy : MonoBehaviour
             if (leftTotalDistance < 0.1f && rightTotalDistance < 0.1f)
             {
                 logManager.WriteInteractionToLog("Foot Interaction", "Right Foot Press");
-                RunPressToSelect();
+                RunPressToSelect("right");
             }
         }
 
         // Sliding Detect - Left
-        if (leftSR.value.Length > 0)
+        if (leftSR.value.Length > 0 && leftFootToeCollision.TouchedObjs.Count > 0)
         {
             if (int.Parse(leftSR.value) < holdThresholdLeft)
                 leftHoldingFlag = true;
@@ -108,7 +113,7 @@ public class FootGestureController_UserStudy : MonoBehaviour
         }
 
         // Sliding Detect - Right
-        if (rightSR.value.Length > 0)
+        if (rightSR.value.Length > 0 && rightFootToeCollision.TouchedObjs.Count > 0)
         {
             if (int.Parse(rightSR.value) < holdThresholdRight)
                 rightHoldingFlag = true;
@@ -116,7 +121,7 @@ public class FootGestureController_UserStudy : MonoBehaviour
                 rightHoldingFlag = false;
         }
 
-        if (Vector3.Distance(leftFoot.position, previousLeftPosition) > 0.005f && leftHoldingFlag && !rightMoving) // left moving
+        if (Vector3.Distance(leftFoot.position, previousLeftPosition) > 0.005f && leftHoldingFlag) // left moving
             leftMoving = true;
         else if (Vector3.Distance(leftFoot.position, previousLeftPosition) <= 0.005f && leftSR.value.Length > 0 && int.Parse(leftSR.value) > releaseThresholdLeft) // left still
             leftMoving = false;
@@ -124,7 +129,7 @@ public class FootGestureController_UserStudy : MonoBehaviour
         if(leftFoot.position.y > 0.1f)
             leftMoving = false;
 
-        if (Vector3.Distance(rightFoot.position, previousRightPosition) > 0.005f && rightHoldingFlag && !leftMoving) // right moving
+        if (Vector3.Distance(rightFoot.position, previousRightPosition) > 0.005f && rightHoldingFlag) // right moving
             rightMoving = true;
         else if (Vector3.Distance(rightFoot.position, previousRightPosition) <= 0.005f && rightSR.value.Length > 0 && int.Parse(rightSR.value) > releaseThresholdRight) // right still
             rightMoving = false;
@@ -147,86 +152,164 @@ public class FootGestureController_UserStudy : MonoBehaviour
     #endregion
 
     #region Foot Press using pressure sensor
-    private void RunPressToSelect()
+    private void RunPressToSelect(string foot)
     {
-        if (leftFootToeCollision.TouchedObjs.Count > 0)
+        if (foot == "left" && leftFootToeCollision.TouchedObjs.Count > 0)
         {
             foreach (Transform t in leftFootToeCollision.TouchedObjs)
             {
-                if (t.GetComponent<Vis>().Selected)
-                    DC.RemoveExplicitSelection(t);
-                else
-                    DC.AddExplicitSelection(t);
+                if (t != null)
+                {
+                    if (t.GetComponent<Vis>().Selected)
+                        DC.RemoveExplicitSelection(t);
+                    else
+                        DC.AddExplicitSelection(t);
+                }
             }
         }
 
-        if (rightFootToeCollision.TouchedObjs.Count > 0)
+        if (foot == "right" && rightFootToeCollision.TouchedObjs.Count > 0)
         {
             foreach (Transform t in rightFootToeCollision.TouchedObjs)
             {
-                if (t.GetComponent<Vis>().Selected)
-                    DC.RemoveExplicitSelection(t);
-                else
-                    DC.AddExplicitSelection(t);
+                if (t != null) {
+                    if (t.GetComponent<Vis>().Selected)
+                        DC.RemoveExplicitSelection(t);
+                    else
+                        DC.AddExplicitSelection(t);
+                }
             }
         }
     }
 
     private void RunPressToSlide()
     {
-        if (leftMoving && !rightMoving)
+
+        if (leftMoving && rightMoving)
         {
-            Debug.Log("left moving");
+            //Debug.Log("left moving");
             if (leftFootToeCollision.TouchedObjs.Count > 0)
             {
-                movingOBJ = leftFootToeCollision.TouchedObjs[0];
-                Debug.Log("moving OBJ: " + movingOBJ.name);
+                movingOBJs[0] = leftFootToeCollision.TouchedObjs[0];
+                if (movingOBJs[0] != null) {
+                    if (movingOBJs[0].parent != null && movingOBJs[0].parent != leftFoot)
+                    {
+                        movingOBJs[0].parent = leftFoot;
+                        movingOBJs[0].GetComponent<Vis>().Moving = true;
+                    }
 
-                if (movingOBJ.parent != leftFoot) {
-                    movingOBJ.parent = leftFoot;
-                    movingOBJ.GetComponent<Vis>().Moving = true;
+                    logManager.WriteInteractionToLog("Foot Interaction", "Left Sliding " + movingOBJs[0].name);
+                    previousMovingPosition[0] = movingOBJs[0].position;
                 }
-
-                logManager.WriteInteractionToLog("Foot Interaction", "Left Sliding " + movingOBJ.name);
-                previousMovingPosition = movingOBJ.position;
             }
-            
+
+            if (rightFootToeCollision.TouchedObjs.Count > 0)
+            {
+                movingOBJs[1] = rightFootToeCollision.TouchedObjs[0];
+
+                if (movingOBJs[1] != null) {
+                    if (movingOBJs[1].parent != null && movingOBJs[1].parent != rightFoot)
+                    {
+                        movingOBJs[1].parent = rightFoot;
+                        movingOBJs[1].GetComponent<Vis>().Moving = true;
+                    }
+
+                    logManager.WriteInteractionToLog("Foot Interaction", "Right Sliding " + movingOBJs[1].name);
+                    previousMovingPosition[1] = movingOBJs[1].position;
+                }
+            }
+        }
+        else if (leftMoving && !rightMoving)
+        {
+            DetachRightFoot();
+
+            //Debug.Log("left moving");
+            if (leftFootToeCollision.TouchedObjs.Count > 0)
+            {
+                movingOBJs[0] = leftFootToeCollision.TouchedObjs[0];
+                if (movingOBJs[0] != null) {
+                    if (movingOBJs[0].parent != null && movingOBJs[0].parent != leftFoot)
+                    {
+                        movingOBJs[0].parent = leftFoot;
+                        movingOBJs[0].GetComponent<Vis>().Moving = true;
+                    }
+
+                    logManager.WriteInteractionToLog("Foot Interaction", "Left Sliding " + movingOBJs[0].name);
+                    previousMovingPosition[0] = movingOBJs[0].position;
+                }
+            }
+            else
+                movingOBJs[0] = null;
+
         }
         else if (!leftMoving && rightMoving)
         {
+            DetachLeftFoot();
+
             if (rightFootToeCollision.TouchedObjs.Count > 0)
             {
-                movingOBJ = rightFootToeCollision.TouchedObjs[0];
+                movingOBJs[1] = rightFootToeCollision.TouchedObjs[0];
 
-                if (movingOBJ.parent != rightFoot)
-                {
-                    movingOBJ.parent = rightFoot;
-                    movingOBJ.GetComponent<Vis>().Moving = true;
+                if (movingOBJs[1] != null) {
+                    if (movingOBJs[1].parent != null && movingOBJs[1].parent != rightFoot)
+                    {
+                        movingOBJs[1].parent = rightFoot;
+                        movingOBJs[1].GetComponent<Vis>().Moving = true;
+                    }
+
+                    logManager.WriteInteractionToLog("Foot Interaction", "Right Sliding " + movingOBJs[1].name);
+                    previousMovingPosition[1] = movingOBJs[1].position;
                 }
-
-                logManager.WriteInteractionToLog("Foot Interaction", "Right Sliding " + movingOBJ.name);
-                previousMovingPosition = movingOBJ.position;
+                
             }
+            else
+                movingOBJs[1] = null;
 
         }
         else if (!leftMoving && !rightMoving)
         {
-            if (movingOBJ != null) {
-                movingOBJ.parent = EM.GroundDisplay;
-                movingOBJ.GetComponent<Vis>().Moving = false;
-                previousMovingPosition = Vector3.zero;
-            }                
+            DetachLeftFoot();
+            DetachRightFoot();
         }
 
 
-        if (previousMovingPosition != Vector3.zero && Vector3.Distance(previousMovingPosition, movingOBJ.position) > 0.5f)
+        if (previousMovingPosition[0] != Vector3.zero && movingOBJs[0] != null && Vector3.Distance(previousMovingPosition[0], movingOBJs[0].position) > 0.5f)
         {
-            movingOBJ.position = previousMovingPosition;
+            movingOBJs[0].position = previousMovingPosition[0];
+        }
+
+        if (previousMovingPosition[1] != Vector3.zero && movingOBJs[1] != null && Vector3.Distance(previousMovingPosition[1], movingOBJs[1].position) > 0.5f)
+        {
+            movingOBJs[1].position = previousMovingPosition[1];
         }
     }
     #endregion
 
     #region Utilities
+
+    private void DetachLeftFoot() {
+        if (movingOBJs[0] != null)
+        {
+            movingOBJs[0].parent = EM.GroundDisplay;
+            movingOBJs[0].GetComponent<Vis>().Moving = false;
+            previousMovingPosition[0] = Vector3.zero;
+
+            movingOBJs[0] = null;
+        }
+    }
+
+    private void DetachRightFoot()
+    {
+        if (movingOBJs[1] != null)
+        {
+            movingOBJs[1].parent = EM.GroundDisplay;
+            movingOBJs[1].GetComponent<Vis>().Moving = false;
+            previousMovingPosition[1] = Vector3.zero;
+
+            movingOBJs[1] = null;
+        }
+    }
+
     private void FootInteractionFeedback() {
         // pressure feedback right
         if (EM.GetCurrentLandmarkFOR() == ReferenceFrames.Floor && rightSR.value.Length > 0 && float.Parse(rightSR.value) < 2000f &&
@@ -242,11 +325,11 @@ public class FootGestureController_UserStudy : MonoBehaviour
                 rightFeedbackCircle.localScale = Vector3.one;
 
             if (float.Parse(rightSR.value) <= pressToSelectThresholdRight && !rightMoving)
-                rightFeedbackCircle.GetComponent<MeshRenderer>().material.SetColor("_UnlitColor", new Color(0, 0, 1, 0.4f));
+                rightFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 1, 0.4f);
             else if (float.Parse(rightSR.value) < holdThresholdRight)
-                rightFeedbackCircle.GetComponent<MeshRenderer>().material.SetColor("_UnlitColor", new Color(1, 0.92f, 0.016f, 0.4f));
+                rightFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(1, 0.92f, 0.016f, 0.4f);
             else
-                rightFeedbackCircle.GetComponent<MeshRenderer>().material.SetColor("_UnlitColor", new Color(1, 0, 0, 0.4f));
+                rightFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0.4f);
         }
         else
             rightPressFeedback.gameObject.SetActive(false);
@@ -265,11 +348,11 @@ public class FootGestureController_UserStudy : MonoBehaviour
                 leftFeedbackCircle.localScale = Vector3.one;
 
             if (float.Parse(leftSR.value) <= pressToSelectThresholdLeft && !leftMoving)
-                leftFeedbackCircle.GetComponent<MeshRenderer>().material.SetColor("_UnlitColor", new Color(0, 0, 1, 0.4f));
+                leftFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 1, 0.4f);
             else if (float.Parse(leftSR.value) < holdThresholdLeft)
-                leftFeedbackCircle.GetComponent<MeshRenderer>().material.SetColor("_UnlitColor", new Color(1, 0.92f, 0.016f, 0.4f));
+                leftFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(1, 0.92f, 0.016f, 0.4f);
             else
-                leftFeedbackCircle.GetComponent<MeshRenderer>().material.SetColor("_UnlitColor", new Color(1, 0, 0, 0.4f));
+                leftFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0.4f);
         }
         else
             leftPressFeedback.gameObject.SetActive(false);

@@ -44,6 +44,10 @@ public class ShoeRecieve : MonoBehaviour
         OpenPortControl();
     }
 
+    public void OpenPortControlManually() {
+        OpenPortControl();
+    }
+
     void ReadSerial()
     {
         while (ReadThread.IsAlive)

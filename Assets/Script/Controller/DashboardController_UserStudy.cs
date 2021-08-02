@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Linq;
 using VRTK;
+using System;
 
 public class DashboardController_UserStudy : MonoBehaviour
 {
@@ -138,7 +139,7 @@ public class DashboardController_UserStudy : MonoBehaviour
             float waistToEye = Camera.main.transform.position.y - HumanWaist.position.y;
 
             InitialiseShoulder = true;
-            Shoulder.localPosition = new Vector3(0, waistToEye * 3f / 4f, 0);
+            Shoulder.localPosition = new Vector3(-0.1f, waistToEye * 3f / 4f, 0);
             WaistLevelDisplay.position = Shoulder.position;
 
             RePositionLandmarks(ReferenceFrames.Body);
@@ -239,6 +240,13 @@ public class DashboardController_UserStudy : MonoBehaviour
         foreach (Transform t in currentLandmarks.Values.ToList())
             Destroy(t.gameObject);
         currentLandmarks.Clear();
+
+        Array.Clear(EM.FG.movingOBJs, 0, EM.FG.movingOBJs.Length);
+        Array.Clear(EM.FG.previousMovingPosition, 0, EM.FG.previousMovingPosition.Length);
+        EM.FG.rightMoving = false;
+        EM.FG.leftMoving = false;
+        EM.FG.leftFootToeCollision.TouchedObjs.Clear();
+        EM.FG.rightFootToeCollision.TouchedObjs.Clear();
 
         foreach (Transform t in currentDetailedViews.Values.ToList())
             Destroy(t.gameObject);
@@ -927,7 +935,7 @@ public class DashboardController_UserStudy : MonoBehaviour
         // make sure tmpList isn't already empty
         while (newList.Count < number && tmpList.Count > 0)
         {
-            int index = Random.Range(0, tmpList.Count);
+            int index = UnityEngine.Random.Range(0, tmpList.Count);
             newList.Add(tmpList[index]);
             tmpList.RemoveAt(index);
         }

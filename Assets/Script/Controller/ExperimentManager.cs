@@ -34,6 +34,7 @@ public class ExperimentManager : MonoBehaviour
     public Transform rightFoot;
     public Transform TaskBoard;
     public LogManager logManager;
+    public FootGestureController_UserStudy FG;
     [Header("Body-Tracking")]
     public float armLength;
     public Transform waist;

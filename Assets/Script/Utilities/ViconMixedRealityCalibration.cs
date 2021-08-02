@@ -14,15 +14,16 @@ public class ViconMixedRealityCalibration : MonoBehaviour
       */
 
     public Transform XRrig;
+    public Transform AvatarTransform;
     public Transform leftController; // mixed reality controllers
     public Transform rightController;
     public Transform viconLeft; //tracked vicon frames
     public Transform viconRight;
-    
 
+    public bool calibrated = false;
     void Start()
     {
-        StartCoroutine(Delay());
+        //StartCoroutine(Delay());
     }
    
     IEnumerator Delay()
@@ -31,6 +32,11 @@ public class ViconMixedRealityCalibration : MonoBehaviour
         ApplyOffset();
 
     }
+
+    public void Calibrate() {
+        ApplyOffset();
+    }
+
     void ApplyOffset()
     {
         //Get the angle of the tracked vicon controller frames
@@ -44,10 +50,14 @@ public class ViconMixedRealityCalibration : MonoBehaviour
         // apply rotation offset to the XR camera and controller parent
         float RotOffset = controllerAngle - viconAngle;
         XRrig.eulerAngles = new Vector3(XRrig.eulerAngles.x, XRrig.eulerAngles.y + RotOffset, XRrig.eulerAngles.z);
+        AvatarTransform.eulerAngles = new Vector3(AvatarTransform.eulerAngles.x, AvatarTransform.eulerAngles.y + RotOffset, AvatarTransform.eulerAngles.z);
 
         // apply position offset to xr parent. 
         Vector3 PosOffset = viconRight.position - rightController.position;
         XRrig.position += PosOffset;
-        print("Calibrated! Rotated " + RotOffset + " degrees, moved " + PosOffset.ToString("F4"));
+        AvatarTransform.position += PosOffset;
+        //print("Calibrated! Rotated " + RotOffset + " degrees, moved " + PosOffset.ToString("F4"));
+
+        calibrated = true;
     }
 }

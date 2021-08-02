@@ -2,23 +2,18 @@
 using System.Collections;
 using UnityEditor;
 
-[CustomEditor(typeof(DashboardController_UserStudy))]
+[CustomEditor(typeof(ShoeRecieve))]
 public class CustomButton : Editor
 {
-    //public override void OnInspectorGUI()
-    //{
-    //    DrawDefaultInspector();
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
 
-    //    DashboardController_UserStudy myScript = (DashboardController_UserStudy)target;
-    //    if (GUILayout.Button("Get Shoulder Position"))
-    //    {
-    //        myScript.GetShoulderPosition();
-    //    }
-
-    //    if (GUILayout.Button("Get Arm Length"))
-    //    {
-    //        myScript.GetArmLength();
-    //    }
-    //}
+        ShoeRecieve myScript = (ShoeRecieve)target;
+        if (GUILayout.Button("Open Port"))
+        {
+            myScript.OpenPortControlManually();
+        }
+    }
 
 }

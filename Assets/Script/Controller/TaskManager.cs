@@ -7,6 +7,7 @@ using VRTK;
 public class TaskManager : MonoBehaviour
 {
     public ExperimentManager EM;
+    public ViconMixedRealityCalibration vmrc;
     public Transform StartBoard;
     public Text StartTitle;
     public Transform StartButton;
@@ -46,7 +47,7 @@ public class TaskManager : MonoBehaviour
             UpdateUI(questionID);
         }
 
-        if (!initialised && Camera.main != null) {
+        if (!initialised && Camera.main != null && vmrc.calibrated) {
             initialised = true;
 
             Vector3 oldAngle = Camera.main.transform.eulerAngles;

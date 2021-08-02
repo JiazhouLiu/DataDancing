@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 6f05532d30671b3419e831f1035dd0a5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -651,6 +651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EM: {fileID: 0}
+  vmrc: {fileID: 0}
   StartBoard: {fileID: 4971629877618586852}
   StartTitle: {fileID: 6164191019743723290}
   StartButton: {fileID: 8171656640665680492}
@@ -675,7 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e617163e52f45894d8ebc8bafb7092df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EM: {fileID: 0}
+  DP: {fileID: 0}
   StartBoard: {fileID: 4971629877618586852}
   StartTitle: {fileID: 6164191019743723290}
   StartButton: {fileID: 8171656640665680492}

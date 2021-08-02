@@ -160,9 +160,10 @@ public class ReferenceFrameController_UserStudy : MonoBehaviour
                 landmarkPositions.Add(newPosition);
 
                 t.position = newPosition;
+                t.GetComponent<VisInteractionController_UserStudy>().initialisePosition = false;
 
-                t.GetComponent<Rigidbody>().isKinematic = false;
-                t.GetComponent<Rigidbody>().AddForce(Vector3.down * 10, ForceMode.Force);
+                //t.GetComponent<Rigidbody>().isKinematic = false;
+                //t.GetComponent<Rigidbody>().AddForce(Vector3.down * 10, ForceMode.Force);
             }
         }
         else if (currentRF == ReferenceFrames.Body) // landmarks on waist level display
@@ -204,7 +205,7 @@ public class ReferenceFrameController_UserStudy : MonoBehaviour
         if (currentRF == ReferenceFrames.Floor)
         {
             landmarkSize = DC_UserStudy.LandmarkSizeOnGround;
-            tmpPosition = new Vector3(Random.Range(-1f + (DC_UserStudy.LandmarkSizeOnGround / 2), 1f - (DC_UserStudy.LandmarkSizeOnGround / 2)), 0.1f, 
+            tmpPosition = new Vector3(Random.Range(-1f + (DC_UserStudy.LandmarkSizeOnGround / 2), 1f - (DC_UserStudy.LandmarkSizeOnGround / 2)), 0.025f, 
                 Random.Range(-0.5f + (DC_UserStudy.LandmarkSizeOnGround / 2), 1f - (DC_UserStudy.LandmarkSizeOnGround / 2)));
         }
         else if (currentRF == ReferenceFrames.Shelves)

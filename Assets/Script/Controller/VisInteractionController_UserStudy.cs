@@ -37,6 +37,8 @@ public class VisInteractionController_UserStudy : MonoBehaviour
 
     private Vector3 closestPointOnSphere = Vector3.zero;
 
+    private bool selfMoving = false;
+
     private void Awake()
     {
         // Subscribe to events
@@ -168,8 +170,9 @@ public class VisInteractionController_UserStudy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("DisplaySurface") && (DC.Landmark == ReferenceFrames.Shelves))
+        if (other.CompareTag("DisplaySurface") && (DC.Landmark == ReferenceFrames.Shelves) && !selfMoving)
         {
+
             isTouchingDisplaySurface = true;
             touchingDisplaySurface = other.GetComponent<DisplaySurface>();
             currentRigidbody.isKinematic = true;
@@ -203,6 +206,7 @@ public class VisInteractionController_UserStudy : MonoBehaviour
             !other.GetComponent<VisInteractionController_UserStudy>().isGrabbing &&
             transform.parent.name != "Original Visualisation List")
             {
+                selfMoving = true;
                 other.GetComponent<Rigidbody>().isKinematic = false;
                 GetComponent<Rigidbody>().isKinematic = false;
                 Vector3 forceDirection = transform.localPosition - other.transform.localPosition;
@@ -242,6 +246,8 @@ public class VisInteractionController_UserStudy : MonoBehaviour
         {
             other.GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<Rigidbody>().isKinematic = true;
+
+            selfMoving = false;
         }
     }
 
