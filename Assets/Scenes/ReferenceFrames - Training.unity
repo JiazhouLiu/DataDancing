@@ -1572,6 +1572,11 @@ PrefabInstance:
       propertyPath: Client
       value: 
       objectReference: {fileID: 1513260912}
+    - target: {fileID: 3964280016969689569, guid: 281298ce46a285a46a5b430eff9d772b,
+        type: 3}
+      propertyPath: ObjectName
+      value: joe_rightShoe
+      objectReference: {fileID: 0}
     - target: {fileID: 3964280016969689572, guid: 281298ce46a285a46a5b430eff9d772b,
         type: 3}
       propertyPath: m_Name
@@ -2762,6 +2767,7 @@ MonoBehaviour:
   leftMoving: 0
   rightMoving: 0
   movingOBJs: []
+  previousMovingPosition: []
 --- !u!4 &583742129
 Transform:
   m_ObjectHideFlags: 0
@@ -4176,6 +4182,11 @@ PrefabInstance:
       propertyPath: Client
       value: 
       objectReference: {fileID: 1513260912}
+    - target: {fileID: 2776397578937781002, guid: eb8f32e7cc630214dafbbd00bcf90781,
+        type: 3}
+      propertyPath: ObjectName
+      value: joe_leftShoe
+      objectReference: {fileID: 0}
     - target: {fileID: 2776397578937781003, guid: eb8f32e7cc630214dafbbd00bcf90781,
         type: 3}
       propertyPath: m_RootOrder
@@ -5560,7 +5571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ParticipantID: 0
-  TrialNo: 3
+  TrialNo: 0
   leftHand: {fileID: 690869450}
   leftControllerEvents: {fileID: 690869453}
   leftHandIndex: 1

@@ -37,6 +37,12 @@ public class ViconMixedRealityCalibration : MonoBehaviour
         ApplyOffset();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown("c")) // calibrate 
+            ApplyOffset();
+    }
+
     void ApplyOffset()
     {
         //Get the angle of the tracked vicon controller frames

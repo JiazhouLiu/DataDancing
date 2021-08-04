@@ -3868,6 +3868,11 @@ PrefabInstance:
       propertyPath: Client
       value: 
       objectReference: {fileID: 1513260912}
+    - target: {fileID: 3964280016969689569, guid: 281298ce46a285a46a5b430eff9d772b,
+        type: 3}
+      propertyPath: ObjectName
+      value: joe_rightShoe
+      objectReference: {fileID: 0}
     - target: {fileID: 3964280016969689572, guid: 281298ce46a285a46a5b430eff9d772b,
         type: 3}
       propertyPath: m_Name
@@ -12109,6 +12114,11 @@ PrefabInstance:
       propertyPath: Client
       value: 
       objectReference: {fileID: 1513260912}
+    - target: {fileID: 2776397578937781002, guid: eb8f32e7cc630214dafbbd00bcf90781,
+        type: 3}
+      propertyPath: ObjectName
+      value: joe_leftShoe
+      objectReference: {fileID: 0}
     - target: {fileID: 2776397578937781003, guid: eb8f32e7cc630214dafbbd00bcf90781,
         type: 3}
       propertyPath: m_RootOrder
