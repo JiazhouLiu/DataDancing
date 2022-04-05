@@ -15,14 +15,16 @@ public class FootGestureController_UserStudy : MonoBehaviour
     public Transform leftFoot;
     public Transform leftFootToe;
     public FootToeCollision leftFootToeCollision;
-    public ShoeRecieve leftSR;
+    //public ShoeRecieve leftSR;
+    public ReceiveInt leftReceive;
     public Transform leftPressFeedback;
     public Transform leftFeedbackCircle;
     // right foot
     public Transform rightFoot;
     public Transform rightFootToe;
     public FootToeCollision rightFootToeCollision;
-    public ShoeRecieve rightSR;
+    //public ShoeRecieve rightSR;
+    public ReceiveInt rightReceive;
     public Transform rightPressFeedback;
     public Transform rightFeedbackCircle;
 
@@ -78,9 +80,9 @@ public class FootGestureController_UserStudy : MonoBehaviour
     private void PressureSensorDetector()
     {
         // Press Detect - Left
-        if (leftSR.value.Length > 0 && int.Parse(leftSR.value) <= pressToSelectThresholdLeft && !leftNormalPressFlag)
+        if (leftReceive.shoeReceiver != 9999 && leftReceive.shoeReceiver <= pressToSelectThresholdLeft && !leftNormalPressFlag)
             leftNormalPressFlag = true;
-        if (leftNormalPressFlag && leftSR.value.Length > 0 && int.Parse(leftSR.value) > releaseThresholdLeft)
+        if (leftNormalPressFlag && leftReceive.shoeReceiver != 9999 && leftReceive.shoeReceiver > releaseThresholdLeft)
         {
             leftNormalPressFlag = false;
             if (leftTotalDistance < 0.1f && rightTotalDistance < 0.1f)
@@ -91,9 +93,9 @@ public class FootGestureController_UserStudy : MonoBehaviour
         }
 
         // Press Detect - Right
-        if (rightSR.value.Length > 0 && int.Parse(rightSR.value) <= pressToSelectThresholdRight && !rightNormalPressFlag)
+        if (rightReceive.shoeReceiver != 9999 && rightReceive.shoeReceiver <= pressToSelectThresholdRight && !rightNormalPressFlag)
             rightNormalPressFlag = true;
-        if (rightNormalPressFlag && rightSR.value.Length > 0 && int.Parse(rightSR.value) > releaseThresholdRight)
+        if (rightNormalPressFlag && rightReceive.shoeReceiver != 9999 && rightReceive.shoeReceiver > releaseThresholdRight)
         {
             rightNormalPressFlag = false;
             if (leftTotalDistance < 0.1f && rightTotalDistance < 0.1f)
@@ -104,18 +106,18 @@ public class FootGestureController_UserStudy : MonoBehaviour
         }
 
         // Sliding Detect - Left
-        if (leftSR.value.Length > 0 && leftFootToeCollision.TouchedObjs.Count > 0)
+        if (leftReceive.shoeReceiver != 9999 && leftFootToeCollision.TouchedObjs.Count > 0)
         {
-            if (int.Parse(leftSR.value) < holdThresholdLeft)
+            if (leftReceive.shoeReceiver < holdThresholdLeft)
                 leftHoldingFlag = true;
             else
                 leftHoldingFlag = false;
         }
 
         // Sliding Detect - Right
-        if (rightSR.value.Length > 0 && rightFootToeCollision.TouchedObjs.Count > 0)
+        if (rightReceive.shoeReceiver != 9999 && rightFootToeCollision.TouchedObjs.Count > 0)
         {
-            if (int.Parse(rightSR.value) < holdThresholdRight)
+            if (rightReceive.shoeReceiver < holdThresholdRight)
                 rightHoldingFlag = true;
             else
                 rightHoldingFlag = false;
@@ -123,7 +125,7 @@ public class FootGestureController_UserStudy : MonoBehaviour
 
         if (Vector3.Distance(leftFoot.position, previousLeftPosition) > 0.005f && leftHoldingFlag) // left moving
             leftMoving = true;
-        else if (Vector3.Distance(leftFoot.position, previousLeftPosition) <= 0.005f && leftSR.value.Length > 0 && int.Parse(leftSR.value) > releaseThresholdLeft) // left still
+        else if (Vector3.Distance(leftFoot.position, previousLeftPosition) <= 0.005f && leftReceive.shoeReceiver != 9999 && leftReceive.shoeReceiver > releaseThresholdLeft) // left still
             leftMoving = false;
 
         if(leftFoot.position.y > 0.1f)
@@ -131,7 +133,7 @@ public class FootGestureController_UserStudy : MonoBehaviour
 
         if (Vector3.Distance(rightFoot.position, previousRightPosition) > 0.005f && rightHoldingFlag) // right moving
             rightMoving = true;
-        else if (Vector3.Distance(rightFoot.position, previousRightPosition) <= 0.005f && rightSR.value.Length > 0 && int.Parse(rightSR.value) > releaseThresholdRight) // right still
+        else if (Vector3.Distance(rightFoot.position, previousRightPosition) <= 0.005f && rightReceive.shoeReceiver != 9999 && rightReceive.shoeReceiver > releaseThresholdRight) // right still
             rightMoving = false;
 
         if (rightFoot.position.y > 0.1f)
@@ -312,7 +314,7 @@ public class FootGestureController_UserStudy : MonoBehaviour
 
     private void FootInteractionFeedback() {
         // pressure feedback right
-        if (EM.GetCurrentLandmarkFOR() == ReferenceFrames.Floor && rightSR.value.Length > 0 && float.Parse(rightSR.value) < 2000f &&
+        if (EM.GetCurrentLandmarkFOR() == ReferenceFrames.Floor && rightReceive.shoeReceiver != 9999 && rightReceive.shoeReceiver < 2000f &&
             rightFootToeCollision.TouchedObjs.Count > 0)
         {
             rightPressFeedback.gameObject.SetActive(true);
@@ -320,13 +322,13 @@ public class FootGestureController_UserStudy : MonoBehaviour
 
             float delta = 4095f - pressToSelectThresholdRight;
 
-            rightFeedbackCircle.localScale = Vector3.one * ((4095f - float.Parse(rightSR.value)) / delta * 0.09f + 0.01f);
+            rightFeedbackCircle.localScale = Vector3.one * ((4095f - rightReceive.shoeReceiver) / delta * 0.09f + 0.01f);
             if (rightFeedbackCircle.localScale.x > 1)
                 rightFeedbackCircle.localScale = Vector3.one;
 
-            if (float.Parse(rightSR.value) <= pressToSelectThresholdRight && !rightMoving)
+            if (rightReceive.shoeReceiver <= pressToSelectThresholdRight && !rightMoving)
                 rightFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 1, 0.4f);
-            else if (float.Parse(rightSR.value) < holdThresholdRight)
+            else if (rightReceive.shoeReceiver < holdThresholdRight)
                 rightFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(1, 0.92f, 0.016f, 0.4f);
             else
                 rightFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0.4f);
@@ -335,7 +337,7 @@ public class FootGestureController_UserStudy : MonoBehaviour
             rightPressFeedback.gameObject.SetActive(false);
 
         // pressure feedback left
-        if (EM.GetCurrentLandmarkFOR() == ReferenceFrames.Floor && leftSR.value.Length > 0 && float.Parse(leftSR.value) < 2000f &&
+        if (EM.GetCurrentLandmarkFOR() == ReferenceFrames.Floor && leftReceive.shoeReceiver != 9999 && leftReceive.shoeReceiver < 2000f &&
             leftFootToeCollision.TouchedObjs.Count > 0)
         {
             leftPressFeedback.gameObject.SetActive(true);
@@ -343,13 +345,13 @@ public class FootGestureController_UserStudy : MonoBehaviour
 
             float delta = 4095f - pressToSelectThresholdLeft;
 
-            leftFeedbackCircle.localScale = Vector3.one * ((4095f - float.Parse(leftSR.value)) / delta * 0.09f + 0.01f);
+            leftFeedbackCircle.localScale = Vector3.one * ((4095f - leftReceive.shoeReceiver) / delta * 0.09f + 0.01f);
             if (leftFeedbackCircle.localScale.x > 1)
                 leftFeedbackCircle.localScale = Vector3.one;
 
-            if (float.Parse(leftSR.value) <= pressToSelectThresholdLeft && !leftMoving)
+            if (leftReceive.shoeReceiver <= pressToSelectThresholdLeft && !leftMoving)
                 leftFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 1, 0.4f);
-            else if (float.Parse(leftSR.value) < holdThresholdLeft)
+            else if (leftReceive.shoeReceiver < holdThresholdLeft)
                 leftFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(1, 0.92f, 0.016f, 0.4f);
             else
                 leftFeedbackCircle.GetComponent<MeshRenderer>().material.color = new Color(1, 0, 0, 0.4f);

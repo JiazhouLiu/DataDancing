@@ -14568,7 +14568,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2776397578937781003}
   - component: {fileID: 2776397578937781002}
-  - component: {fileID: 3510522465643328755}
+  - component: {fileID: 7228090653678609092}
+  - component: {fileID: 868073838}
   m_Layer: 0
   m_Name: LeftFoot
   m_TagString: Untagged
@@ -14604,9 +14605,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4fead0a62ec76b479f2b95a6bab9234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectName: joe_secShoe
+  ObjectName: joe_leftShoe
   Client: {fileID: 0}
---- !u!114 &3510522465643328755
+--- !u!114 &7228090653678609092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14615,15 +14616,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 2776397578937781015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e5bb897ce67a4441af2b11881decec3, type: 3}
+  m_Script: {fileID: 11500000, guid: 49a7ca167d4a4ca4ea6fe6a73431084c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portName: COM10
-  baudRate: 115200
-  parity: 0
-  dataBits: 8
-  stopBits: 1
-  value: 
+  shoeReceiver: 9999
+  batteryReceiver: 9999
+--- !u!114 &868073838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2776397578937781015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6729ebfc7bf403f9f3afb0c93ed10d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _receiver: {fileID: 0}
+  _address: /LeftShoe
+  _mapBundle: {fileID: 0}
+  onReceive:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7228090653678609092}
+        m_MethodName: GetInt
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2791230265063903241
 GameObject:
   m_ObjectHideFlags: 0
@@ -47471,17 +47497,17 @@ PrefabInstance:
     - target: {fileID: 3123073587010453934, guid: bde95034d18560944b490516202868e5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 3123073587010453934, guid: bde95034d18560944b490516202868e5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.003
       objectReference: {fileID: 0}
     - target: {fileID: 3123073587010453934, guid: bde95034d18560944b490516202868e5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.07
+      value: -0.055
       objectReference: {fileID: 0}
     - target: {fileID: 3123073587010453934, guid: bde95034d18560944b490516202868e5,
         type: 3}
